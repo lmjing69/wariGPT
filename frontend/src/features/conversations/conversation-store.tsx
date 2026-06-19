@@ -90,18 +90,27 @@ export function ConversationProvider({
   }, [activeId, hydrated]);
 
   const newChat = React.useCallback(() => {
-    const id = uid("conv");
-    const now = Date.now();
-    const conversation: Conversation = {
-      id,
-      title: "New chat",
-      messages: [],
-      createdAt: now,
-      updatedAt: now,
-    };
-    setConversations((prev) => [conversation, ...prev]);
-    setActiveId(id);
-    return id;
+    // Reuse an existing empty conversation rather than creating a duplicate.
+    setConversations((prev) => {
+      const empty = prev.find((c) => c.messages.length === 0);
+      if (empty) {
+        setActiveId(empty.id);
+        return prev;
+      }
+      const id = uid("conv");
+      const now = Date.now();
+      const conversation: Conversation = {
+        id,
+        title: "New chat",
+        messages: [],
+        createdAt: now,
+        updatedAt: now,
+      };
+      setActiveId(id);
+      return [conversation, ...prev];
+    });
+    // Return value is best-effort; callers rarely use it.
+    return "";
   }, []);
 
   const ensureActive = React.useCallback((): string => {
