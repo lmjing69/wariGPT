@@ -1,12 +1,13 @@
-from sentence_transformers import SentenceTransformer
+import numpy as np
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 
-_model = None
+_ef = None
 
-def _get_model():
-    global _model
-    if _model is None:
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
-    return _model
+def _get_ef():
+    global _ef
+    if _ef is None:
+        _ef = ONNXMiniLM_L6_V2()
+    return _ef
 
 def get_embedding(text):
-    return _get_model().encode(text)
+    return np.array(_get_ef()([text])[0])
