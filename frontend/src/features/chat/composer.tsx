@@ -152,8 +152,8 @@ export function Composer({
           handleFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "rounded-3xl border border-border bg-card p-2 shadow-[0_2px_16px_0_oklch(0.6_0.16_280/0.08)] backdrop-blur transition-all focus-within:border-brand/40 focus-within:shadow-[0_2px_20px_0_oklch(0.6_0.16_280/0.14)]",
-          dragging && "border-brand bg-brand/5 shadow-[0_2px_24px_0_oklch(0.6_0.16_280/0.2)]"
+          "rounded-3xl border border-border bg-card p-2 shadow-sm backdrop-blur transition-colors focus-within:border-foreground/20",
+          dragging && "border-foreground/30 bg-muted/30"
         )}
       >
         {/* Attachment chips */}

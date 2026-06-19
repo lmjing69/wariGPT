@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 interface FollowUpChipsProps {
   items: string[];
@@ -9,26 +8,21 @@ interface FollowUpChipsProps {
   disabled?: boolean;
 }
 
-/** Clickable suggested follow-up prompts shown under the last assistant reply. */
 export function FollowUpChips({ items, onPick, disabled }: FollowUpChipsProps) {
   if (!items || items.length === 0) return null;
-
   return (
-    <div className="mt-4 flex flex-wrap gap-2 pl-11">
+    <div className="mt-3 flex flex-wrap gap-2 pl-10">
       {items.map((text, i) => (
         <motion.button
           key={`${text}-${i}`}
           type="button"
           disabled={disabled}
           onClick={() => onPick(text)}
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.07, duration: 0.22 }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1.5 text-xs text-brand transition-colors hover:bg-brand/12 hover:border-brand/40 disabled:opacity-50"
+          transition={{ delay: i * 0.06, duration: 0.2 }}
+          className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
         >
-          <Sparkles className="size-3 opacity-70" />
           {text}
         </motion.button>
       ))}

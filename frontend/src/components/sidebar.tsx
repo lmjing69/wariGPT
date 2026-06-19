@@ -46,7 +46,7 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-2xl bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground shadow-sm">
+          <div className="flex size-8 items-center justify-center rounded-xl bg-foreground text-background">
             <Sparkles className="size-4" />
           </div>
           <span className="text-[0.95rem] font-semibold tracking-tight">WariGPT</span>
@@ -68,7 +68,7 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
       <div className="px-3 pb-3">
         <Button
           variant="outline"
-          className="w-full justify-start gap-2 rounded-2xl border-brand/20 bg-brand/5 text-brand hover:bg-brand/10 hover:border-brand/30 transition-colors"
+          className="w-full justify-start gap-2 rounded-xl border-border bg-background/50"
           onClick={() => { newChat(); onClose?.(); }}
         >
           <Plus className="size-4" />
@@ -113,7 +113,7 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
             <DropdownMenuTrigger asChild>
               <button className="flex flex-1 items-center gap-2.5 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-accent">
                 <Avatar className="size-7">
-                  <AvatarFallback className="bg-brand/15 text-brand">
+                  <AvatarFallback className="bg-secondary text-secondary-foreground">
                     <User className="size-3.5" />
                   </AvatarFallback>
                 </Avatar>
@@ -136,7 +136,7 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 text-muted-foreground hover:text-brand"
+            className="size-8 text-muted-foreground"
             onClick={onOpenSettings}
             aria-label="Settings"
           >

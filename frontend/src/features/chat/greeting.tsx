@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { BookOpen, Code2, Lightbulb, MessageCircle } from "lucide-react";
 
 const SUGGESTIONS = [
-  { icon: Lightbulb, text: "Explain quantum computing in simple terms", color: "text-amber-500" },
-  { icon: Code2,     text: "Write a Python function to deduplicate a list", color: "text-sky-500" },
-  { icon: BookOpen,  text: "Summarise the key ideas in my document", color: "text-violet-500" },
-  { icon: MessageCircle, text: "Help me brainstorm a project plan", color: "text-rose-400" },
+  { icon: Lightbulb,       text: "Explain quantum computing in simple terms" },
+  { icon: Code2,           text: "Write a Python function to deduplicate a list" },
+  { icon: BookOpen,        text: "Summarise the key ideas in my document" },
+  { icon: MessageCircle,   text: "Help me brainstorm a project plan" },
 ];
 
 interface GreetingProps {
@@ -15,55 +15,50 @@ interface GreetingProps {
   name?: string;
 }
 
-/** Centered welcome shown for an empty conversation. */
 export function Greeting({ onPick, name }: GreetingProps) {
   return (
     <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-12 text-center">
-      {/* Soft glowing logo mark */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.85 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="mb-6 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground shadow-[0_4px_24px_0_oklch(0.6_0.16_280/0.25)]"
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="mb-3 flex size-10 items-center justify-center rounded-xl bg-foreground text-background"
       >
-        {/* Friendly waving emoji instead of cold icon */}
-        <span className="text-2xl" aria-hidden>✨</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="M12 2a10 10 0 1 1 0 20A10 10 0 0 1 12 2zm0 2a8 8 0 1 0 0 16A8 8 0 0 0 12 4zm0 3a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H8a1 1 0 1 1 0-2h3V8a1 1 0 0 1 1-1z"/>
+        </svg>
       </motion.div>
 
       <motion.h1
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.08, duration: 0.35 }}
-        className="text-3xl font-semibold tracking-tight sm:text-4xl"
+        transition={{ delay: 0.06, duration: 0.3 }}
+        className="text-2xl font-semibold tracking-tight sm:text-3xl"
       >
-        {name ? `Hey, ${name} 👋` : "Hey there! 👋"}
+        {name ? `Hello, ${name}` : "How can I help?"}
       </motion.h1>
       <motion.p
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.14, duration: 0.35 }}
-        className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-muted-foreground"
+        transition={{ delay: 0.1, duration: 0.3 }}
+        className="mt-2 max-w-sm text-sm text-muted-foreground"
       >
-        I&apos;m here to help — ask me anything, or drop in a document and I&apos;ll use it when it&apos;s useful.
+        Ask me anything, or attach a document and I&apos;ll use it when relevant.
       </motion.p>
 
-      <div className="mt-9 grid w-full gap-3 sm:grid-cols-2">
-        {SUGGESTIONS.map(({ icon: Icon, text, color }, i) => (
+      <div className="mt-8 grid w-full gap-2 sm:grid-cols-2">
+        {SUGGESTIONS.map(({ icon: Icon, text }, i) => (
           <motion.button
             key={text}
             type="button"
             onClick={() => onPick(text)}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 + i * 0.06, duration: 0.3 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left text-sm shadow-sm transition-shadow hover:shadow-md hover:border-brand/30 hover:bg-accent/60"
+            transition={{ delay: 0.14 + i * 0.05, duration: 0.25 }}
+            className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left text-sm transition-colors hover:bg-accent"
           >
-            <span className={`shrink-0 rounded-xl bg-muted p-2 ${color}`}>
-              <Icon className="size-4" />
-            </span>
-            <span className="text-foreground/85 leading-snug">{text}</span>
+            <Icon className="size-4 shrink-0 text-muted-foreground" />
+            <span className="text-foreground/80">{text}</span>
           </motion.button>
         ))}
       </div>

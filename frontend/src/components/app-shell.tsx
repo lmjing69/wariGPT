@@ -75,7 +75,7 @@ export function AppShell() {
             <Menu className="size-5" />
           </Button>
           <div className="flex items-center gap-2">
-            <div className="flex size-7 items-center justify-center rounded-xl bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground">
+            <div className="flex size-7 items-center justify-center rounded-xl bg-foreground text-background">
               <Sparkles className="size-3.5" />
             </div>
             <span className="font-semibold tracking-tight">WariGPT</span>
