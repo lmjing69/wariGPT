@@ -26,14 +26,16 @@ app = FastAPI(title="WariGPT API")
 
 app.include_router(speech_router)
 
-# Allow the Next.js frontend to call the API from the browser.
+import os
+
+# Allowed origins: read from env so production can set the real domain.
+# Falls back to localhost for local development.
+_raw = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000")
+_ALLOWED_ORIGINS = [o.strip() for o in _raw.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://wari-gpt.vercel.app",
-    ],
+    allow_origins=_ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

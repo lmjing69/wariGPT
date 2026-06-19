@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "@/lib/constants";
 import type { ChatStreamEvent, ChatStreamRequest } from "@/types/api";
 
 export interface StreamHandlers {
@@ -24,7 +23,7 @@ export async function streamChat(
 
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}/chat-stream`, {
+    response = await fetch(`/api/chat-stream`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req),

@@ -1,6 +1,6 @@
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ??
-  "http://localhost:8000";
+// API_BASE_URL is intentionally NOT exported to the browser.
+// All backend calls go through the /api proxy (Next.js rewrites + route handlers).
+// The actual backend URL lives in the server-only API_BASE_URL env var.
 
 export const STORAGE_KEYS = {
   conversations: "warigpt:conversations:v2",

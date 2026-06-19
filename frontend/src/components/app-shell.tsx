@@ -11,7 +11,6 @@ import { SettingsDialog } from "@/features/settings/settings-dialog";
 import { useBackendStatus } from "@/hooks/use-backend-status";
 import { useConversations } from "@/features/conversations/conversation-store";
 import { useDocuments } from "@/features/documents/use-documents";
-import { API_BASE_URL } from "@/lib/constants";
 
 export function AppShell() {
   const { status } = useBackendStatus();
@@ -103,11 +102,7 @@ export function AppShell() {
             >
               <div className="flex items-center gap-2 px-4 py-2 text-xs text-destructive">
                 <WifiOff className="size-4 shrink-0" />
-                <span>
-                  Can&apos;t reach the assistant at{" "}
-                  <span className="font-mono">{API_BASE_URL}</span>. Make sure
-                  the backend is running.
-                </span>
+                <span>Can&apos;t reach the assistant. Please try again later.</span>
               </div>
             </motion.div>
           )}

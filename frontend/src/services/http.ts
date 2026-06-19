@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { API_BASE_URL, REQUEST_TIMEOUT_MS } from "@/lib/constants";
+import { REQUEST_TIMEOUT_MS } from "@/lib/constants";
 
-/** Shared axios instance pointed at the FastAPI backend. */
+/** Shared axios instance — calls go through the Next.js /api proxy. */
 export const http = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: "/api",
   timeout: REQUEST_TIMEOUT_MS,
   headers: {
     Accept: "application/json",

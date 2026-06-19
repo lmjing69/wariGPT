@@ -2,8 +2,6 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { API_BASE_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -81,9 +79,9 @@ export function SettingsDialog({
         {/* Connection */}
         <div className="flex items-center justify-between">
           <div className="min-w-0">
-            <p className="text-sm font-medium">Backend</p>
-            <p className="break-all text-xs text-muted-foreground">
-              {API_BASE_URL}
+            <p className="text-sm font-medium">AI Service</p>
+            <p className="text-xs text-muted-foreground">
+              Connection status
             </p>
           </div>
           <StatusBadge status={backendStatus} />
