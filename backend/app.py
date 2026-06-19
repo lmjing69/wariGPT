@@ -23,12 +23,13 @@ def _doc_id_from_filename(filename):
 
 app = FastAPI(title="WariGPT API")
 
-# Allow the Next.js frontend (localhost:3000) to call the API from the browser.
+# Allow the Next.js frontend to call the API from the browser.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "https://wari-gpt.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
