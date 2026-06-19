@@ -69,6 +69,11 @@ def home():
     return {"status": "running"}
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 @app.post("/chat-stream")
 def chat_stream(data: ChatStreamRequest):
     """Streaming, memory-aware assistant chat with hidden relevance-gated RAG.

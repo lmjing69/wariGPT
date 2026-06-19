@@ -4,7 +4,7 @@ import type { HealthResponse, UploadResponse } from "@/types/api";
 /** GET / — backend health/status check. */
 export async function getHealth(signal?: AbortSignal): Promise<HealthResponse> {
   try {
-    const { data } = await http.get<HealthResponse>("/", {
+    const { data } = await http.get<HealthResponse>("/health", {
       signal,
       timeout: 8000,
     });
