@@ -9,6 +9,7 @@ import re
 
 from services.llm import ask_llm
 from services.assistant import chat_event_stream
+from services.speech.speech_router import router as speech_router
 from rag.rag_pipeline import ask_pdf
 from rag.ingest import ingest_file
 from rag.loaders import UnsupportedFileError, file_kind
@@ -22,6 +23,8 @@ def _doc_id_from_filename(filename):
 
 
 app = FastAPI(title="WariGPT API")
+
+app.include_router(speech_router)
 
 # Allow the Next.js frontend to call the API from the browser.
 app.add_middleware(

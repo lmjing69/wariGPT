@@ -6,3 +6,4 @@ pypdf==6.13.2
 python-multipart==0.0.32
 openai==2.16.0
 pydantic==2.12.5
+elevenlabs==2.3.0

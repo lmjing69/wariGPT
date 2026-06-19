@@ -6,10 +6,14 @@ import {
   AlertCircle,
   FileText,
   Image as ImageIcon,
+  Loader2,
+  Pause,
+  Play,
   RefreshCw,
   Sparkles,
   User,
 } from "lucide-react";
+import { useTTS } from "@/hooks/use-tts";
 
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/copy-button";
@@ -129,6 +133,7 @@ export function Message({
           {!isUser && !isThinking && message.status !== "streaming" && (
             <div className="mt-1.5 flex items-center gap-1 opacity-0 transition-opacity group-hover/message:opacity-100 data-[show=true]:opacity-100" data-show={isLast}>
               {!isError && <CopyButton value={message.content} />}
+              {!isError && <VoiceButton text={message.content} />}
               {isLast && !isStreaming && (
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -151,6 +156,35 @@ export function Message({
         </div>
       </div>
     </motion.div>
+  );
+}
+
+function VoiceButton({ text }: { text: string }) {
+  const { state, toggle } = useTTS(text);
+  const label =
+    state === "loading" ? "Generating…" : state === "playing" ? "Pause" : "Play";
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-7 text-muted-foreground"
+          onClick={toggle}
+          disabled={state === "loading" || state === "error"}
+          aria-label={label}
+        >
+          {state === "loading" ? (
+            <Loader2 className="size-3.5 animate-spin" />
+          ) : state === "playing" ? (
+            <Pause className="size-3.5" />
+          ) : (
+            <Play className="size-3.5" />
+          )}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 }
 
