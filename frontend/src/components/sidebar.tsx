@@ -37,9 +37,10 @@ interface SidebarProps {
 }
 
 export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps) {
-  const { newChat } = useConversations();
+  const { newChat, activeConversation } = useConversations();
   const { documents, removeDocument } = useDocuments();
   const [filesOpen, setFilesOpen] = React.useState(true);
+  const isEmptyChat = !activeConversation || activeConversation.messages.length === 0;
 
   return (
     <aside className="flex h-full w-full flex-col bg-card/60 backdrop-blur-xl">
@@ -70,6 +71,7 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
           variant="outline"
           className="w-full justify-start gap-2 rounded-xl border-border bg-background/50"
           onClick={() => { newChat(); onClose?.(); }}
+          disabled={isEmptyChat}
         >
           <Plus className="size-4" />
           New chat

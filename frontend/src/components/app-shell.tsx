@@ -14,8 +14,9 @@ import { useDocuments } from "@/features/documents/use-documents";
 
 export function AppShell() {
   const { status } = useBackendStatus();
-  const { newChat, clearAll } = useConversations();
+  const { newChat, clearAll, activeConversation } = useConversations();
   const { clearDocuments } = useDocuments();
+  const isEmptyChat = !activeConversation || activeConversation.messages.length === 0;
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
@@ -86,6 +87,7 @@ export function AppShell() {
             className="size-9 rounded-xl"
             onClick={() => newChat()}
             aria-label="New chat"
+            disabled={isEmptyChat}
           >
             <PenSquare className="size-4.5" />
           </Button>
