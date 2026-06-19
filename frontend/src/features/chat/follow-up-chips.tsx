@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface FollowUpChipsProps {
   items: string[];
@@ -14,7 +14,7 @@ export function FollowUpChips({ items, onPick, disabled }: FollowUpChipsProps) {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="mt-3 flex flex-wrap gap-2 pl-12">
+    <div className="mt-4 flex flex-wrap gap-2 pl-11">
       {items.map((text, i) => (
         <motion.button
           key={`${text}-${i}`}
@@ -23,11 +23,13 @@ export function FollowUpChips({ items, onPick, disabled }: FollowUpChipsProps) {
           onClick={() => onPick(text)}
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.06, duration: 0.2 }}
-          className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs text-foreground/80 transition-colors hover:border-brand/50 hover:bg-accent hover:text-foreground disabled:opacity-50"
+          transition={{ delay: i * 0.07, duration: 0.22 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1.5 text-xs text-brand transition-colors hover:bg-brand/12 hover:border-brand/40 disabled:opacity-50"
         >
+          <Sparkles className="size-3 opacity-70" />
           {text}
-          <ArrowUpRight className="size-3 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </motion.button>
       ))}
     </div>

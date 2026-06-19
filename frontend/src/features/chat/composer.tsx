@@ -152,8 +152,8 @@ export function Composer({
           handleFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "rounded-3xl border border-border bg-card/80 p-2 shadow-lg backdrop-blur transition-colors focus-within:border-brand/50",
-          dragging && "border-brand bg-brand/5"
+          "rounded-3xl border border-border bg-card p-2 shadow-[0_2px_16px_0_oklch(0.6_0.16_280/0.08)] backdrop-blur transition-all focus-within:border-brand/40 focus-within:shadow-[0_2px_20px_0_oklch(0.6_0.16_280/0.14)]",
+          dragging && "border-brand bg-brand/5 shadow-[0_2px_24px_0_oklch(0.6_0.16_280/0.2)]"
         )}
       >
         {/* Attachment chips */}
@@ -190,7 +190,7 @@ export function Composer({
             onKeyDown={onKeyDown}
             disabled={disabled}
             placeholder={
-              disabled ? "Assistant is offline…" : "Message WariGPT…"
+              disabled ? "The assistant is offline right now…" : "Ask me anything…"
             }
             className="max-h-[220px] flex-1 py-2.5"
             aria-label="Message"
@@ -235,8 +235,8 @@ export function Composer({
         />
       </div>
 
-      <p className="mt-2 text-center text-[0.7rem] text-muted-foreground">
-        WariGPT can make mistakes. Verify important information.
+      <p className="mt-2 text-center text-[0.68rem] text-muted-foreground/70">
+        WariGPT can make mistakes — double-check anything important.
       </p>
     </div>
   );

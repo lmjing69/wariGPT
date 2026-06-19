@@ -36,26 +36,20 @@ interface SidebarProps {
   onClose?: () => void;
 }
 
-export function Sidebar({
-  backendStatus,
-  onOpenSettings,
-  onClose,
-}: SidebarProps) {
+export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps) {
   const { newChat } = useConversations();
   const { documents, removeDocument } = useDocuments();
   const [filesOpen, setFilesOpen] = React.useState(true);
 
   return (
-    <aside className="flex h-full w-full flex-col bg-card/40 backdrop-blur-xl">
+    <aside className="flex h-full w-full flex-col bg-card/60 backdrop-blur-xl">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-3">
+      <div className="flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand/70 text-brand-foreground shadow-sm">
-            <Sparkles className="size-4.5" />
+          <div className="flex size-8 items-center justify-center rounded-2xl bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground shadow-sm">
+            <Sparkles className="size-4" />
           </div>
-          <span className="text-[0.95rem] font-semibold tracking-tight">
-            WariGPT
-          </span>
+          <span className="text-[0.95rem] font-semibold tracking-tight">WariGPT</span>
         </div>
         {onClose && (
           <Button
@@ -71,21 +65,18 @@ export function Sidebar({
       </div>
 
       {/* New chat */}
-      <div className="px-3 pb-2">
+      <div className="px-3 pb-3">
         <Button
           variant="outline"
-          className="w-full justify-start gap-2 rounded-xl border-border bg-background/50"
-          onClick={() => {
-            newChat();
-            onClose?.();
-          }}
+          className="w-full justify-start gap-2 rounded-2xl border-brand/20 bg-brand/5 text-brand hover:bg-brand/10 hover:border-brand/30 transition-colors"
+          onClick={() => { newChat(); onClose?.(); }}
         >
           <Plus className="size-4" />
           New chat
         </Button>
       </div>
 
-      {/* Scrollable middle */}
+      {/* Scrollable history */}
       <ScrollArea className="flex-1 px-3">
         <div className="py-2">
           <ConversationList onNavigate={onClose} />
@@ -97,7 +88,7 @@ export function Sidebar({
         <Separator className="mb-2" />
         <button
           onClick={() => setFilesOpen((o) => !o)}
-          className="mb-1 flex w-full items-center justify-between px-1 text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground"
+          className="mb-1.5 flex w-full items-center justify-between rounded-lg px-1.5 py-1 text-[0.7rem] font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground transition-colors"
         >
           <span className="flex items-center gap-1.5">
             <FileText className="size-3.5" />
@@ -116,25 +107,23 @@ export function Sidebar({
 
       {/* Footer: profile + status */}
       <div className="px-3 py-3">
-        <Separator className="mb-2" />
+        <Separator className="mb-3" />
         <div className="flex items-center justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex flex-1 items-center gap-2 rounded-lg px-1.5 py-1.5 text-left transition-colors hover:bg-accent">
+              <button className="flex flex-1 items-center gap-2.5 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-accent">
                 <Avatar className="size-7">
-                  <AvatarFallback className="bg-brand/20 text-brand">
-                    <User className="size-4" />
+                  <AvatarFallback className="bg-brand/15 text-brand">
+                    <User className="size-3.5" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">You</p>
-                  <p className="truncate text-[0.7rem] text-muted-foreground">
-                    Local workspace
-                  </p>
+                  <p className="truncate text-[0.68rem] text-muted-foreground">Local workspace</p>
                 </div>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuContent align="start" className="w-56 rounded-2xl">
               <DropdownMenuLabel>Signed in locally</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onOpenSettings}>
@@ -147,14 +136,14 @@ export function Sidebar({
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 text-muted-foreground"
+            className="size-8 text-muted-foreground hover:text-brand"
             onClick={onOpenSettings}
             aria-label="Settings"
           >
             <Settings className="size-4" />
           </Button>
         </div>
-        <div className="mt-2 flex justify-center">
+        <div className="mt-2.5 flex justify-center">
           <StatusBadge status={backendStatus} />
         </div>
       </div>

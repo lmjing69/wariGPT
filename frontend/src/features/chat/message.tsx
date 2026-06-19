@@ -10,7 +10,6 @@ import {
   Pause,
   Play,
   RefreshCw,
-  Sparkles,
   User,
 } from "lucide-react";
 import { useTTS } from "@/hooks/use-tts";
@@ -47,27 +46,22 @@ export function Message({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className="group/message w-full"
     >
-      <div
-        className={cn(
-          "flex gap-4",
-          isUser ? "flex-row-reverse" : "flex-row"
-        )}
-      >
+      <div className={cn("flex gap-3", isUser ? "flex-row-reverse" : "flex-row")}>
         {/* Avatar */}
         <div
           className={cn(
-            "mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
+            "mt-1 flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-medium",
             isUser
-              ? "bg-secondary text-secondary-foreground"
-              : "bg-gradient-to-br from-brand to-brand/70 text-brand-foreground shadow-sm"
+              ? "bg-gradient-to-br from-rose-100 to-orange-100 text-rose-500 shadow-sm dark:from-rose-900/40 dark:to-orange-900/30 dark:text-rose-300"
+              : "bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground shadow-sm"
           )}
         >
-          {isUser ? <User className="size-4" /> : <Sparkles className="size-4" />}
+          {isUser ? <User className="size-3.5" /> : <span aria-hidden>✨</span>}
         </div>
 
         {/* Body */}
@@ -80,23 +74,14 @@ export function Message({
         >
           {/* Attachments (above user text) */}
           {message.attachments && message.attachments.length > 0 && (
-            <div
-              className={cn(
-                "mb-2 flex flex-wrap gap-2",
-                isUser ? "justify-end" : "justify-start"
-              )}
-            >
+            <div className={cn("mb-2 flex flex-wrap gap-2", isUser ? "justify-end" : "justify-start")}>
               {message.attachments.map((a) => (
                 <div
                   key={a.id}
-                  className="flex items-center gap-2 rounded-lg border border-border bg-card/70 px-2.5 py-1.5 text-xs"
+                  className="flex items-center gap-2 rounded-2xl border border-border bg-card/80 px-3 py-1.5 text-xs shadow-sm"
                 >
                   {a.kind === "image" && a.previewUrl ? (
-                    <img
-                      src={a.previewUrl}
-                      alt=""
-                      className="size-7 rounded-md object-cover"
-                    />
+                    <img src={a.previewUrl} alt="" className="size-7 rounded-xl object-cover" />
                   ) : a.kind === "image" ? (
                     <ImageIcon className="size-3.5 text-brand" />
                   ) : (
@@ -110,11 +95,11 @@ export function Message({
 
           {/* Bubble */}
           {isUser ? (
-            <div className="rounded-2xl rounded-tr-sm bg-secondary px-4 py-2.5 text-sm text-secondary-foreground">
+            <div className="rounded-3xl rounded-tr-md bg-gradient-to-br from-brand/90 to-brand/70 px-4 py-2.5 text-sm text-brand-foreground shadow-sm">
               <p className="whitespace-pre-wrap break-words">{message.content}</p>
             </div>
           ) : isError ? (
-            <div className="flex items-start gap-2 rounded-2xl rounded-tl-sm border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <div className="flex items-start gap-2 rounded-2xl rounded-tl-md border border-destructive/30 bg-destructive/8 px-4 py-3 text-sm text-destructive">
               <AlertCircle className="mt-0.5 size-4 shrink-0" />
               <span>{message.content}</span>
             </div>
@@ -124,14 +109,17 @@ export function Message({
             <div className="w-full">
               <Markdown content={message.content} />
               {message.status === "streaming" && (
-                <span className="ml-0.5 inline-block h-4 w-[3px] translate-y-0.5 animate-pulse rounded-full bg-foreground/70 align-middle" />
+                <span className="ml-0.5 inline-block h-4 w-[3px] translate-y-0.5 rounded-full bg-brand/70 align-middle" style={{ animation: "soft-pulse 1.1s ease-in-out infinite" }} />
               )}
             </div>
           )}
 
-          {/* Action row (assistant, finished) */}
+          {/* Action row */}
           {!isUser && !isThinking && message.status !== "streaming" && (
-            <div className="mt-1.5 flex items-center gap-1 opacity-0 transition-opacity group-hover/message:opacity-100 data-[show=true]:opacity-100" data-show={isLast}>
+            <div
+              className="mt-2 flex items-center gap-1 opacity-0 transition-opacity group-hover/message:opacity-100 data-[show=true]:opacity-100"
+              data-show={isLast}
+            >
               {!isError && <CopyButton value={message.content} />}
               {!isError && <VoiceButton text={message.content} />}
               {isLast && !isStreaming && (
@@ -140,7 +128,7 @@ export function Message({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="size-7 text-muted-foreground"
+                      className="size-7 text-muted-foreground hover:text-brand"
                       onClick={onRegenerate}
                       aria-label="Regenerate response"
                     >
@@ -169,7 +157,7 @@ function VoiceButton({ text }: { text: string }) {
         <Button
           variant="ghost"
           size="icon"
-          className="size-7 text-muted-foreground"
+          className="size-7 text-muted-foreground hover:text-brand"
           onClick={toggle}
           disabled={state === "loading" || state === "error"}
           aria-label={label}
@@ -190,12 +178,15 @@ function VoiceButton({ text }: { text: string }) {
 
 function ThinkingDots() {
   return (
-    <div className="flex items-center gap-1 py-2" aria-label="Assistant is thinking">
+    <div
+      className="flex items-center gap-1.5 rounded-2xl rounded-tl-md bg-muted/60 px-4 py-3"
+      aria-label="Assistant is thinking"
+    >
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="size-2 rounded-full bg-muted-foreground/70"
-          style={{ animation: "blink 1.4s infinite both", animationDelay: `${i * 0.2}s` }}
+          className="size-2 rounded-full bg-brand/50"
+          style={{ animation: "blink 1.5s ease-in-out infinite", animationDelay: `${i * 0.22}s` }}
         />
       ))}
     </div>

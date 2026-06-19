@@ -11,6 +11,7 @@ import { SettingsDialog } from "@/features/settings/settings-dialog";
 import { useBackendStatus } from "@/hooks/use-backend-status";
 import { useConversations } from "@/features/conversations/conversation-store";
 import { useDocuments } from "@/features/documents/use-documents";
+import { API_BASE_URL } from "@/lib/constants";
 
 export function AppShell() {
   const { status } = useBackendStatus();
@@ -35,7 +36,7 @@ export function AppShell() {
         {sidebarOpen && (
           <div className="fixed inset-0 z-40 md:hidden">
             <motion.div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -64,45 +65,49 @@ export function AppShell() {
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile top bar */}
-        <header className="flex items-center justify-between border-b border-border px-2 py-2 md:hidden">
+        <header className="flex items-center justify-between border-b border-border/60 bg-card/70 px-2 py-2 backdrop-blur md:hidden">
           <Button
             variant="ghost"
             size="icon"
-            className="size-9"
+            className="size-9 rounded-xl"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open menu"
           >
             <Menu className="size-5" />
           </Button>
           <div className="flex items-center gap-2">
-            <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand/70 text-brand-foreground">
-              <Sparkles className="size-4" />
+            <div className="flex size-7 items-center justify-center rounded-xl bg-gradient-to-br from-brand/80 to-brand/40 text-brand-foreground">
+              <Sparkles className="size-3.5" />
             </div>
-            <span className="font-semibold">WariGPT</span>
+            <span className="font-semibold tracking-tight">WariGPT</span>
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="size-9"
+            className="size-9 rounded-xl"
             onClick={() => newChat()}
             aria-label="New chat"
           >
-            <PenSquare className="size-5" />
+            <PenSquare className="size-4.5" />
           </Button>
         </header>
 
-        {/* Offline banner */}
+        {/* Offline banner — soft amber instead of harsh red */}
         <AnimatePresence>
           {status === "offline" && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-b border-destructive/30 bg-destructive/10"
+              className="overflow-hidden border-b border-amber-200/60 bg-amber-50/80 dark:border-amber-700/30 dark:bg-amber-900/20"
             >
-              <div className="flex items-center gap-2 px-4 py-2 text-xs text-destructive">
+              <div className="flex items-center gap-2 px-4 py-2 text-xs text-amber-700 dark:text-amber-300">
                 <WifiOff className="size-4 shrink-0" />
-                <span>Can&apos;t reach the assistant. Please try again later.</span>
+                <span>
+                  Can&apos;t reach the assistant at{" "}
+                  <span className="font-mono">{API_BASE_URL}</span>.{" "}
+                  Make sure the backend is running.
+                </span>
               </div>
             </motion.div>
           )}
