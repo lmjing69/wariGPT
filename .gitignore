@@ -1,0 +1,27 @@
+# Backend
+backend/venv/
+__pycache__/
+*.py[cod]
+backend/__pycache__/
+backend/.claude/
+backend/.env
+backend/.env.*
+backend/chroma_db/
+backend/uploads/
+
+# Frontend (already covered by frontend/.gitignore mostly, but good to have)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.DS_Store
+frontend/*.pem
+frontend/npm-debug.log*
+frontend/.env
+frontend/.env.*
+frontend/next-env.d.ts
+frontend/.vercel/
+frontend/*.tsbuildinfo
+
+# OS
+.DS_Store
