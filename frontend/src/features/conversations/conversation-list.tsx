@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useConversations } from "./conversation-store";
@@ -148,13 +149,8 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
                               <Pencil className="size-4" />
                               Rename
                             </DropdownMenuItem>
-                            <DropdownMenuItem
-                              destructive
-                              onClick={() => deleteChat(conv.id)}
-                            >
-                              <Trash2 className="size-4" />
-                              Delete
-                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DeleteItem id={conv.id} onDelete={deleteChat} />
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </>
@@ -167,5 +163,39 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
         </div>
       ))}
     </div>
+  );
+}
+
+/** Two-step delete: first click shows confirm, second click deletes. */
+function DeleteItem({ id, onDelete }: { id: string; onDelete: (id: string) => void }) {
+  const [confirming, setConfirming] = React.useState(false);
+
+  if (confirming) {
+    return (
+      <DropdownMenuItem
+        destructive
+        onSelect={(e) => {
+          e.preventDefault(); // keep menu open for the confirm click
+          onDelete(id);
+        }}
+        className="justify-between"
+      >
+        <span>Confirm delete?</span>
+        <span className="text-xs opacity-70">click to confirm</span>
+      </DropdownMenuItem>
+    );
+  }
+
+  return (
+    <DropdownMenuItem
+      destructive
+      onSelect={(e) => {
+        e.preventDefault();
+        setConfirming(true);
+      }}
+    >
+      <Trash2 className="size-4" />
+      Delete
+    </DropdownMenuItem>
   );
 }
