@@ -2,18 +2,16 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, PenSquare, Sparkles, WifiOff } from "lucide-react";
+import { Menu, PenSquare, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/components/sidebar";
 import { ChatView } from "@/features/chat/chat-view";
 import { SettingsDialog } from "@/features/settings/settings-dialog";
-import { useBackendStatus } from "@/hooks/use-backend-status";
 import { useConversations } from "@/features/conversations/conversation-store";
 import { useDocuments } from "@/features/documents/use-documents";
 
 export function AppShell() {
-  const { status } = useBackendStatus();
   const { newChat, clearAll } = useConversations();
   const { clearDocuments } = useDocuments();
 
@@ -25,7 +23,6 @@ export function AppShell() {
       {/* Desktop sidebar */}
       <div className="hidden w-72 shrink-0 border-r border-border md:block">
         <Sidebar
-          backendStatus={status}
           onOpenSettings={() => setSettingsOpen(true)}
         />
       </div>
@@ -49,7 +46,6 @@ export function AppShell() {
               transition={{ type: "spring", damping: 28, stiffness: 280 }}
             >
               <Sidebar
-                backendStatus={status}
                 onOpenSettings={() => {
                   setSettingsOpen(true);
                   setSidebarOpen(false);
@@ -92,31 +88,15 @@ export function AppShell() {
         </header>
 
         {/* Offline banner — soft amber instead of harsh red */}
-        <AnimatePresence>
-          {status === "offline" && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-b border-amber-200/60 bg-amber-50/80 dark:border-amber-700/30 dark:bg-amber-900/20"
-            >
-              <div className="flex items-center gap-2 px-4 py-2 text-xs text-amber-700 dark:text-amber-300">
-                <WifiOff className="size-4 shrink-0" />
-                <span>Can&apos;t reach the assistant. Please try again later.</span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <main className="min-h-0 flex-1">
-          <ChatView backendStatus={status} />
+          <ChatView />
         </main>
       </div>
 
       <SettingsDialog
         open={settingsOpen}
         onOpenChange={setSettingsOpen}
-        backendStatus={status}
         onClearConversations={() => {
           clearAll();
           setSettingsOpen(false);

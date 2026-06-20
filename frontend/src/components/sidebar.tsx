@@ -23,20 +23,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { StatusBadge } from "@/components/status-badge";
 import { ConversationList } from "@/features/conversations/conversation-list";
 import { DocumentList } from "@/features/documents/document-list";
 import { useConversations } from "@/features/conversations/conversation-store";
 import { useDocuments } from "@/features/documents/use-documents";
-import type { BackendStatus } from "@/types";
 
 interface SidebarProps {
-  backendStatus: BackendStatus;
   onOpenSettings: () => void;
   onClose?: () => void;
 }
 
-export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps) {
+export function Sidebar({ onOpenSettings, onClose }: SidebarProps) {
   const { newChat } = useConversations();
   const { documents, removeDocument } = useDocuments();
   const [filesOpen, setFilesOpen] = React.useState(true);
@@ -142,9 +139,6 @@ export function Sidebar({ backendStatus, onOpenSettings, onClose }: SidebarProps
           >
             <Settings className="size-4" />
           </Button>
-        </div>
-        <div className="mt-2.5 flex justify-center">
-          <StatusBadge status={backendStatus} />
         </div>
       </div>
     </aside>

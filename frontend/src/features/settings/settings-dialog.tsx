@@ -12,13 +12,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { StatusBadge } from "@/components/status-badge";
-import type { BackendStatus } from "@/types";
 
 interface SettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  backendStatus: BackendStatus;
   onClearConversations: () => void;
   onClearDocuments: () => void;
 }
@@ -26,7 +23,6 @@ interface SettingsDialogProps {
 export function SettingsDialog({
   open,
   onOpenChange,
-  backendStatus,
   onClearConversations,
   onClearDocuments,
 }: SettingsDialogProps) {
@@ -72,19 +68,6 @@ export function SettingsDialog({
               </button>
             ))}
           </div>
-        </div>
-
-        <Separator />
-
-        {/* Connection */}
-        <div className="flex items-center justify-between">
-          <div className="min-w-0">
-            <p className="text-sm font-medium">AI Service</p>
-            <p className="text-xs text-muted-foreground">
-              Connection status
-            </p>
-          </div>
-          <StatusBadge status={backendStatus} />
         </div>
 
         <Separator />

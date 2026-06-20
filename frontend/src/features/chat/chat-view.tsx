@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useConversations } from "@/features/conversations/conversation-store";
@@ -10,13 +9,11 @@ import { Message } from "./message";
 import { Composer } from "./composer";
 import { Greeting } from "./greeting";
 import { FollowUpChips } from "./follow-up-chips";
-import type { Attachment, BackendStatus } from "@/types";
+import type { Attachment } from "@/types";
 
-interface ChatViewProps {
-  backendStatus: BackendStatus;
-}
+interface ChatViewProps {}
 
-export function ChatView({ backendStatus }: ChatViewProps) {
+export function ChatView({}: ChatViewProps) {
   const { activeConversation } = useConversations();
   const { send, regenerate, stop, isStreaming } = useChatStream();
   const [draft, setDraft] = React.useState("");
@@ -25,7 +22,6 @@ export function ChatView({ backendStatus }: ChatViewProps) {
   const stickToBottom = React.useRef(true);
 
   const messages = activeConversation?.messages ?? [];
-  const isOffline = backendStatus === "offline";
 
   // Track whether the user is near the bottom; only auto-scroll if so.
   const onScroll = React.useCallback(() => {
@@ -43,16 +39,10 @@ export function ChatView({ backendStatus }: ChatViewProps) {
 
   const handleSend = React.useCallback(
     (text: string, attachments: Attachment[]) => {
-      if (isOffline) {
-        toast.error("Assistant offline", {
-          description: "Can't send while the backend is unreachable.",
-        });
-        return;
-      }
       stickToBottom.current = true;
       void send(text, attachments);
     },
-    [isOffline, send]
+    [send]
   );
 
   const lastAssistant = [...messages]
@@ -104,7 +94,6 @@ export function ChatView({ backendStatus }: ChatViewProps) {
           onSend={handleSend}
           onStop={stop}
           isStreaming={isStreaming}
-          disabled={isOffline}
         />
       </div>
     </div>

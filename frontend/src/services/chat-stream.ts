@@ -32,13 +32,13 @@ export async function streamChat(
   } catch (err) {
     if ((err as Error)?.name === "AbortError") return;
     onError?.(
-      "Could not reach the assistant. Make sure the backend is running."
+      "Hey, I'm having a little trouble connecting right now. Give it a moment and try again — I'll be right here!"
     );
     return;
   }
 
   if (!response.ok || !response.body) {
-    onError?.(`The server returned an error (${response.status}).`);
+    onError?.("Something went wrong on my end. Please try sending that again!");
     return;
   }
 
@@ -93,6 +93,6 @@ export async function streamChat(
     }
   } catch (err) {
     if ((err as Error)?.name === "AbortError") return;
-    onError?.("The connection was interrupted.");
+    onError?.("Our connection dropped mid-way. Could you try that again?");
   }
 }
