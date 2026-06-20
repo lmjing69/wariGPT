@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, MessageSquare, MoreHorizontal, Pencil, Trash2, X } from "lucide-react";
+import { Check, Copy, MessageSquare, MoreHorizontal, Pencil, Share2, Trash2, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,7 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
     selectChat,
     renameChat,
     deleteChat,
+    duplicateChat,
   } = useConversations();
 
   const [editingId, setEditingId] = React.useState<string | null>(null);
@@ -148,6 +149,23 @@ export function ConversationList({ onNavigate }: { onNavigate?: () => void }) {
                             >
                               <Pencil className="size-4" />
                               Rename
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                const text = conv.messages
+                                  .map((m) => `${m.role === "user" ? "You" : "WariGPT"}: ${m.content}`)
+                                  .join("\n\n");
+                                navigator.clipboard.writeText(text);
+                              }}
+                            >
+                              <Share2 className="size-4" />
+                              Share chat
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => duplicateChat(conv.id)}
+                            >
+                              <Copy className="size-4" />
+                              Duplicate
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DeleteItem id={conv.id} onDelete={deleteChat} />

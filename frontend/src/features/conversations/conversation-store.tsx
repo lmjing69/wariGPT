@@ -16,6 +16,7 @@ interface ConversationState {
   selectChat: (id: string) => void;
   renameChat: (id: string, title: string) => void;
   deleteChat: (id: string) => void;
+  duplicateChat: (id: string) => void;
   clearAll: () => void;
 
   /** Ensure a conversation exists to write into; returns its id. */
@@ -138,6 +139,25 @@ export function ConversationProvider({
     []
   );
 
+  const duplicateChat = React.useCallback((id: string) => {
+    setConversations((prev) => {
+      const source = prev.find((c) => c.id === id);
+      if (!source) return prev;
+      const newId = uid("conv");
+      const now = Date.now();
+      const copy: Conversation = {
+        ...source,
+        id: newId,
+        title: `${source.title} (copy)`,
+        createdAt: now,
+        updatedAt: now,
+        messages: source.messages.map((m) => ({ ...m, id: uid("msg") })),
+      };
+      setActiveId(newId);
+      return [copy, ...prev];
+    });
+  }, []);
+
   const clearAll = React.useCallback(() => {
     setConversations([]);
     setActiveId(null);
@@ -212,6 +232,7 @@ export function ConversationProvider({
     selectChat,
     renameChat,
     deleteChat,
+    duplicateChat,
     clearAll,
     ensureActive,
     appendMessage,
